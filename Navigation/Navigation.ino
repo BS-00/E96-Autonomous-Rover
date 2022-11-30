@@ -1,11 +1,11 @@
 
 
 
-#include "gyroscope.h"
-#include "ultrasonic.h"
-#include "rover.h"
-#include "Drivetrain.h"
-#include "constants.h"
+#include "/libs/gyroscope.h"
+#include "/libs/ultrasonic.h"
+#include "/libs/rover.h"
+#include "/libs/Drivetrain/Drivetrain.h"
+#include "/libs/constants.h"
 
 
 // to keep track of our current position in centimeters from starting point
