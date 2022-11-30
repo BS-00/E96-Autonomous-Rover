@@ -41,8 +41,8 @@ void loop() {
   }
 
   //we are now in the search area
-  //first, we need to make sure the rover is pointing straight ahead. Turn right until we are
-  while (getYaw() != originalYaw) {
+  //first, we need to make sure the rover is pointing straight ahead. Turn right until we are within -2 to +2 yaw
+  while (((getYaw() % 360) < (originalYaw - 2)) || ((getYaw() % 360) < (originalYaw + 2))) {
     drive.turnRight(SPEED);
   }
   drive.stop();
@@ -96,8 +96,8 @@ void updateRoverPos(int startTime) {
 
 
 void makeLeftTurn() {
-  int desiredYaw = (getYaw() - 90); //change this
-  while (getYaw() != desiredYaw) {
+  int desiredYaw = (getYaw() + 90); 
+  while (getYaw() < (desiredYaw - 2)) { //the - 2 is to give some room for error
     drive.turnLeft(SPEED);
   }
   drive.stop();
@@ -118,8 +118,8 @@ void makeLeftTurn() {
 }
 
 void makeRightTurn() {
-  int desiredYaw = (getYaw() + 90); //change this
-  while (getYaw() != desiredYaw) {
+  int desiredYaw = (getYaw() - 90); 
+  while (getYaw() > (desiredYaw + 2)) { //the + 2 is to give some room for error
     drive.turnLeft(SPEED);
   }
   drive.stop();
