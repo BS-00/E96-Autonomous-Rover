@@ -1,11 +1,8 @@
-
-
-
-#include "/libs/gyroscope.h"
-#include "/libs/ultrasonic.h"
-#include "/libs/rover.h"
-#include "/libs/Drivetrain/Drivetrain.h"
-#include "/libs/constants.h"
+#include "gyroscope.h"
+#include "ultrasonic.h"
+#include "rover.h"
+#include "Drivetrain.h"
+#include "constants.h"
 
 
 // to keep track of our current position in centimeters from starting point
@@ -42,16 +39,16 @@ void loop() {
 
   //we are now in the search area
   //first, we need to make sure the rover is pointing straight ahead. Turn right until we are within -2 to +2 yaw
-  while (((getYaw() % 360) < (originalYaw - 2)) || ((getYaw() % 360) < (originalYaw + 2))) {
+  while ((((int)getYaw() % 360) < (originalYaw - 2)) || (((int)getYaw() % 360) < (originalYaw + 2))) {
     drive.turnRight(SPEED);
   }
-  drive.stop();
+  drive.halt();
   
   //make sure we're in the search area
   while ((sensorFrontCenter.distToNearestObj() > 80) || ((sensorLeft.distToNearestObj() + sensorRight.distToNearestObj() + ROVERWIDTH) < 90)) {
     drive.goForward(SPEED);
   }
-  drive.stop();
+  drive.halt();
 
 
   //OKAY, SO for the search part of the algorithm, I have pseudocode but haven't finished writing the actual code yet
@@ -75,7 +72,7 @@ void moveForwardUntilBlocked() {
   while (!sensorFrontCenter.isImmediatelyBlocked()){
     drive.goForward(SPEED);
   }
-  drive.stop();
+  drive.halt();
   updateRoverPos(t);
 }
 
@@ -100,7 +97,7 @@ void makeLeftTurn() {
   while (getYaw() < (desiredYaw - 2)) { //the - 2 is to give some room for error
     drive.turnLeft(SPEED);
   }
-  drive.stop();
+  drive.halt();
   switch (bruver.orientation) {
     case FORWARD:
       bruver.orientation = LEFT;
@@ -122,7 +119,7 @@ void makeRightTurn() {
   while (getYaw() > (desiredYaw + 2)) { //the + 2 is to give some room for error
     drive.turnLeft(SPEED);
   }
-  drive.stop();
+  drive.halt();
   switch (bruver.orientation) {
     case FORWARD:
       bruver.orientation = RIGHT;
@@ -149,7 +146,7 @@ void maneuverAround() {
     while (!sensorLeft.isClear() & !sensorFrontCenter.isImmediatelyBlocked()){
       drive.goForward(SPEED);
     }
-    drive.stop();
+    drive.halt();
     updateRoverPos(t);
     makeLeftTurn();
 
@@ -160,7 +157,7 @@ void maneuverAround() {
     while (!sensorRight.isClear() && !sensorFrontCenter.isImmediatelyBlocked()){
       drive.goForward(SPEED);
     }
-    drive.stop();
+    drive.halt();
     updateRoverPos(t);
     makeRightTurn();
 

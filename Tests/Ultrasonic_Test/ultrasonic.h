@@ -1,14 +1,12 @@
 #ifndef Ultrasonic_h
 #define Ultrasonic_h
 
-long DISTANCEOUTOFRANGE = 10000;
-int ROVERLENGTH = 32;
+#define DISTANCEOUTOFRANGE 10000
+#define ROVERLENGTH 32
 
 class UltSonSr {
   public:
-    
-
-    UltSonSr();
+    UltSonSr () {}
     UltSonSr (int trigPin, int echoPin) {
       _trigPin = trigPin;
       _echoPin = echoPin;
