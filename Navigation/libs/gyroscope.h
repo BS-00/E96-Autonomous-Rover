@@ -1,6 +1,8 @@
 #ifndef Gyroscope_h
 #define Gyroscope_h
 
+#include <Wire.h>
+
 const int MPU = 0x68;
 float yaw = 0;
 float gyroZ, gyroAngleZ, gyroErrorZ;
