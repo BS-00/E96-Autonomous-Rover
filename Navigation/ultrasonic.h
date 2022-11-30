@@ -31,14 +31,14 @@ class UltSonSr {
     }
 
     bool isClear() {
-      if (read() & (lastDistCm >= (ROVERLENGTH + 5))){
+      if (read() && (lastDistCm >= (ROVERLENGTH + 5))){
         return true;
       }
       return false;
     }
 
     bool isImmediatelyBlocked() {
-      if (read() & (lastDistCm <= 10)){
+      if (read() && (lastDistCm <= 10)){
         return true;
       }
       return false;
