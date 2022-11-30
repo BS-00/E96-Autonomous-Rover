@@ -143,8 +143,8 @@ void maneuverAround() {
 
     int t = millis();    
     makeRightTurn();
-    while (!sensorLeft.isClear() && !sensorFrontCenter.isImmediatelyBlocked()){
-      drive.goForward(SPEED);
+    while (!sensorLeft.isClear()){
+      moveForwardUntilBlocked();
     }
     drive.halt();
     updateRoverPos(t);
@@ -155,8 +155,8 @@ void maneuverAround() {
 
     int t = millis();
     makeLeftTurn();
-    while (!sensorRight.isClear() && !sensorFrontCenter.isImmediatelyBlocked()){
-      drive.goForward(SPEED);
+    while (!sensorRight.isClear()){
+      moveForwardUntilBlocked();
     }
     drive.halt();
     updateRoverPos(t);

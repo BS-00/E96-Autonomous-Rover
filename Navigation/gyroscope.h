@@ -69,10 +69,6 @@ void gyroSetup() {
 
   gyroErrorZ = calculateGyroError();
   currentTime = millis();
-
-  Serial.print("\nGyro Error: ");
-  Serial.print(gyroErrorZ);
-  Serial.print("\n");
 }
 
 
