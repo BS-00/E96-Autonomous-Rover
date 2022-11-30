@@ -38,7 +38,7 @@ class UltSonSr {
     }
 
     bool isImmediatelyBlocked() {
-      if (read() && (lastDistCm <= 10)){
+      if (read() && (lastDistCm <= 15)){
         return true;
       }
       return false;
