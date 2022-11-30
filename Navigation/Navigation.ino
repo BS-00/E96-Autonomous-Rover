@@ -117,7 +117,7 @@ void makeLeftTurn() {
 void makeRightTurn() {
   int desiredYaw = (getYaw() - 90); 
   while (getYaw() > (desiredYaw + 2)) { //the + 2 is to give some room for error
-    drive.turnLeft(SPEED);
+    drive.turnRight(SPEED);
   }
   drive.halt();
   switch (bruver.orientation) {
