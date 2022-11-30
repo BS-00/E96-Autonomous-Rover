@@ -94,7 +94,7 @@ void updateRoverPos(int startTime) {
 
 void makeLeftTurn() {
   int desiredYaw = (getYaw() + 90); 
-  while (getYaw() < (desiredYaw - 2)) { //the - 2 is to give some room for error
+  while (((int)getYaw() % 360) < (desiredYaw - 2)) { //the - 2 is to give some room for error
     drive.turnLeft(SPEED);
   }
   drive.halt();
@@ -116,7 +116,7 @@ void makeLeftTurn() {
 
 void makeRightTurn() {
   int desiredYaw = (getYaw() - 90); 
-  while (getYaw() > (desiredYaw + 2)) { //the + 2 is to give some room for error
+  while (((int)getYaw() % 360) > (desiredYaw + 2)) { //the + 2 is to give some room for error
     drive.turnRight(SPEED);
   }
   drive.halt();
