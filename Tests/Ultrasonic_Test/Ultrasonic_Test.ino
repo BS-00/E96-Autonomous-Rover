@@ -11,17 +11,17 @@ void setup() {
   for (int i = 0; i < N_SENSORS; i++){
     sensors[i] = UltSonSr(SENSOR_PINS[i][0], SENSOR_PINS[i][1]);
   }
+  
 }
 
-const int WAIT_TIME_MILLIS = 100;
 void loop() {
   for (int i = 0; i < N_SENSORS; i++) sensors[i].read();
 
-  Serial.println("Front Left: " + String(sensors[5].lastDistCm));
-  Serial.println("Front Middle: " + String(sensors[2].lastDistCm));
-  Serial.println("Front Right: " + String(sensors[1].lastDistCm));
-  Serial.println("Right: " + String(sensors[0].lastDistCm));
-  Serial.println("Back: " + String(sensors[3].lastDistCm));
-  Serial.println("Left: " + String(sensors[4].lastDistCm));
-  delay(WAIT_TIME_MILLIS);
+  Serial.println("Front Left: " + String(sensors[5].distToNearestObj()));
+  Serial.println("Front Middle: " + String(sensors[2].distToNearestObj()));
+  Serial.println("Front Right: " + String(sensors[1].distToNearestObj()));
+  Serial.println("Right: " + String(sensors[0].distToNearestObj()));
+  Serial.println("Back: " + String(sensors[3].distToNearestObj()));
+  Serial.println("Left: " + String(sensors[4].distToNearestObj()));
+  delay(100);
 }

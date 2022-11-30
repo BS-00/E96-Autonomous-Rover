@@ -1,6 +1,12 @@
+#ifndef Ultrasonic_h
+#define Ultrasonic_h
+
+long DISTANCEOUTOFRANGE = 10000;
+int ROVERLENGTH = 32;
+
 class UltSonSr {
   public:
-    long lastDistCm = NULL;
+    
 
     UltSonSr();
     UltSonSr (int trigPin, int echoPin) {
@@ -24,12 +30,38 @@ class UltSonSr {
       if (lastDistCm < 0) return false;
       return true;
     }
+
+    bool isClear() {
+      if (read() & (lastDistCm >= (ROVERLENGTH + 5))){
+        return true;
+      }
+      return false;
+    }
+
+    bool isImmediatelyBlocked() {
+      if (read() & (lastDistCm <= 10)){
+        return true;
+      }
+      return false;
+    }
+
+    long distToNearestObj() {
+      if (read()) {
+        return lastDistCm;
+      }
+      return DISTANCEOUTOFRANGE;
+    }
   
   private:
     int _trigPin, _echoPin;
+    long lastDistCm = NULL;
 
     long microSecToCm (int microsecs) {
       const int SPEED_OF_SOUND_MICROSEC_PER_CM = 29.1;
       return microsecs / SPEED_OF_SOUND_MICROSEC_PER_CM;
     }
 };
+
+
+
+#endif
