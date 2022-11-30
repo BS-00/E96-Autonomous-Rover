@@ -35,11 +35,12 @@ void moveForwardUntilBlocked() {
 
   //if there's no obstacle in front of the rover within 10 cm, keep moving forward
   drive.goForward(SPEED);
-  while (
-    !sensorFrontCenter.isImmediatelyBlocked() &&
-    !(sensorFrontRight.isImmediatelyBlocked() && !sensorRight.isImmediatelyBlocked()) &&
-    !(sensorFrontLeft.isImmediatelyBlocked() && !sensorLeft.isImmediatelyBlocked())
-    ){
+  for (;;) {
+    if (
+      sensorFrontCenter.isImmediatelyBlocked() ||
+      (sensorFrontRight.isImmediatelyBlocked() && !sensorRight.isImmediatelyBlocked()) ||
+      (sensorFrontLeft.isImmediatelyBlocked() && !sensorLeft.isImmediatelyBlocked())
+    ) break;
       /*
       //THERE IS A WALL VERY CLOSE
       if (sensorLeft.isImmediatelyBlocked()) {
@@ -75,9 +76,10 @@ void updateRoverPos(int startTime) {
 void makeLeftTurn() {
   int desiredYaw = (getYaw() + 90); 
   drive.turnLeft(SPEED);
-  while (((int)getYaw() % 360) < (desiredYaw - 1)) { //the + 2 is to give some room for error
+  /*while (((int)getYaw() % 360) < (desiredYaw - 1)) { //the + 2 is to give some room for error
     continue;
-  }
+  }*/
+  delay(1500);
   drive.halt();
   switch (bruver.orientation) {
     case FORWARD:
@@ -98,9 +100,10 @@ void makeLeftTurn() {
 void makeRightTurn() {
   int desiredYaw = (getYaw() - 90); 
   drive.turnRight(SPEED);
-  while (((int)getYaw() % 360) > (desiredYaw + 1)) { //the + 2 is to give some room for error
+  /*while (((int)getYaw() % 360) > (desiredYaw + 1)) { //the + 2 is to give some room for error
     continue;
-  }
+  }*/
+  delay(1500);
   drive.halt();
   switch (bruver.orientation) {
     case FORWARD:
@@ -125,7 +128,7 @@ void maneuverAround() {
     int t = millis();    
     makeRightTurn();
     drive.goForward(SPEED);
-    delay(2000);
+    delay(1800);
     drive.halt();
     updateRoverPos(t);
     makeLeftTurn();
@@ -135,7 +138,7 @@ void maneuverAround() {
     int t = millis();
     makeLeftTurn();
     drive.goForward(SPEED);
-    delay(2000);
+    delay(1800);
     drive.halt();
     updateRoverPos(t);
     makeRightTurn(); 
@@ -146,12 +149,11 @@ void maneuverAround() {
 void loop() {
   
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
-  
   if (distX <= STRAIGHTAWAYLEN) {
     moveForwardUntilBlocked();
     maneuverAround();
   }
-
+  /*
   drive.goForward(SPEED);
   int dist = 0;
 
@@ -171,6 +173,8 @@ void loop() {
 
   m.set_rotation(Mechanism::CLAW, 0);
   m.set_rotation(Mechanism::TILT, 110);
+  exit(0);
+  */
 
   
 
