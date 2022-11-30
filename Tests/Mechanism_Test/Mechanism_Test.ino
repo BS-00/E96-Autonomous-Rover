@@ -1,19 +1,22 @@
-#include "mechanism.hpp"
+#include "Mechanism.hpp"
 
-const int CLAW_PIN = 0, TILT_PIN = 1;
+const int CLAW_PIN = 2, TILT_PIN = 3;
 Mechanism m = Mechanism(CLAW_PIN, TILT_PIN);
 
-const int DELAY_MILLIS = 3000;
+const int CLAW_START_DEG = 80, MECHANISM_START_DEG = 90;
+
 void setup() {
-  // put your setup code here, to run once:
-  m.init();
-  m.set_rotation(Mechanism::CLAW, 180);
-  delay(DELAY_MILLIS);
+  m.init(CLAW_START_DEG, MECHANISM_START_DEG);
+  delay(3000);
   m.set_rotation(Mechanism::CLAW, 0);
-  delay(DELAY_MILLIS);
-  m.set_rotation(Mechanism::TILT, 180);
-  delay(DELAY_MILLIS);
-  m.set_rotation(Mechanism::TILT, 80);
+  delay(3000);
+  m.set_rotation(Mechanism::TILT, 120);
+  delay(3000);
+  m.set_rotation(Mechanism::TILT, 60);
+  delay(3000);
+  m.set_rotation(Mechanism::TILT, MECHANISM_START_DEG);
+  delay(3000);
+  m.set_rotation(Mechanism::CLAW, CLAW_START_DEG);
   
   Serial.begin(9600);
   Serial.println("Current claw position: " + String(m.read_servo_deg(Mechanism::CLAW)) + " degrees");
