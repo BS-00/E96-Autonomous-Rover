@@ -149,6 +149,7 @@ void maneuverAround() {
     drive.halt();
     updateRoverPos(t);
     makeLeftTurn();
+    drive.halt();
 
   } else if (sensorLeft.isClear()) {
 
@@ -160,7 +161,7 @@ void maneuverAround() {
     drive.halt();
     updateRoverPos(t);
     makeRightTurn();
-
+    drive.halt();    
   }
 
 }
