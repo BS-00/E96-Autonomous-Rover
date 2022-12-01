@@ -7,8 +7,6 @@
 
 
 // to keep track of our current position in centimeters from starting point
-int distX = 0;
-int distY = 0;
 const float originalYaw = 0.0;
 
 UltSonSr sensorFrontCenter(47, 46);
@@ -30,9 +28,6 @@ void setup() {
 }
 
 void moveForwardUntilBlocked() {
-  
-  int t = millis(); 
-
   //if there's no obstacle in front of the rover within 10 cm, keep moving forward
   drive.goForward(SPEED);
   for (;;) {
@@ -51,28 +46,9 @@ void moveForwardUntilBlocked() {
         makeLeftTurn();
       }
       */
-      continue;
   }
   drive.halt();
-  updateRoverPos(t);
 }
-
-
-void updateRoverPos(int startTime) {
-  //to keep track of the position, we calculate how far the rover just moved and update the position vars
-  int t = millis() - startTime;
-  const int WHEELCIRC = 16.9;
-  int distanceTraveled = (t/1000) * ((SPEED*60)*(WHEELCIRC));
-  if (bruver.orientation == FORWARD) {
-    distX += distanceTraveled;
-  } else if (bruver.orientation == RIGHT) {
-    distY += distanceTraveled;
-  } else if (bruver.orientation == LEFT) {
-    distY -= distanceTraveled;
-  } else {distX -= distanceTraveled;}
-}
-
-
 
 void makeLeftTurn() {
   int desiredYaw = (getYaw() + 90); 
@@ -131,7 +107,6 @@ void maneuverAround() {
     drive.goForward(SPEED);
     delay(1800);
     drive.halt();
-    updateRoverPos(t);
     makeLeftTurn();
 
   } else if (sensorLeft.isClear()) {
@@ -141,7 +116,6 @@ void maneuverAround() {
     drive.goForward(SPEED);
     delay(1800);
     drive.halt();
-    updateRoverPos(t);
     makeRightTurn(); 
   }
 
@@ -150,11 +124,12 @@ void maneuverAround() {
 void loop() {
   
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
-  while (distX <= STRAIGHTAWAYLEN) {
+  
+  while (sensorLeft.distToNearestObj() <= (STRAIGHTAWAYWIDTH - ROVERWIDTH) && sensorRight.distToNearestObj() <= (STRAIGHTAWAYWIDTH - ROVERWIDTH)) {
     moveForwardUntilBlocked();
-    if (distX < STRAIGHTAWAYLEN) maneuverAround();
+    maneuverAround();
   }
-
+  /*
   drive.goForward(SPEED);
   int dist = 0;
 
@@ -175,7 +150,7 @@ void loop() {
   m.set_rotation(Mechanism::CLAW, 0);
   m.set_rotation(Mechanism::TILT, 110);
   exit(0);
-
+  */
   
 
   /*
