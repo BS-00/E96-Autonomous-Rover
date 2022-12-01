@@ -12,15 +12,15 @@ class Rover {
     enum Direction {FORWARD, BACKWARD, LEFT, RIGHT};
     Direction orientation = FORWARD;
     
-    UltSonSr  sensorFCenter,
-          sensorFL,
-          sensorFR,
-          sensorL,
-          sensorR,
-          sensorBack;
-    Drivetrain drive;
-    ClawAssembly assem;
-    MPU gyro;
+    UltSonSr  sensorFCenter(),
+          sensorFL(),
+          sensorFR(),
+          sensorL(),
+          sensorR(),
+          sensorBack();
+    Drivetrain drive();
+    ClawAssembly assem();
+    MPU gyro();
 	
   bool init ();
 

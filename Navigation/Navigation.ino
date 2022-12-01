@@ -3,7 +3,7 @@
 
 #include <Wire.h>
 
-Rover bruver;
+Rover bruver();
 
 void setup() {
   Serial.begin(9600);
