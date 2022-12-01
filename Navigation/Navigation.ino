@@ -149,7 +149,7 @@ void maneuverAround() {
 void loop() {
   
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
-  if (distX <= STRAIGHTAWAYLEN) {
+  if (true) {
     moveForwardUntilBlocked();
     maneuverAround();
   }
