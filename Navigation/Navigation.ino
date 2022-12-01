@@ -3,7 +3,7 @@
 
 #include <Wire.h>
 
-Rover bruver();
+Rover bruver;
 
 void setup() {
   Serial.begin(9600);
@@ -13,7 +13,8 @@ void setup() {
 }
 
 void loop() {
-  
+  bruver.drive.goForward(SPEED); 
+  /*
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
   const int BUFFER = 5;
   while (bruver.xPosCm() <= STRAIGHTAWAYLEN) {
@@ -37,7 +38,7 @@ void loop() {
 
   bruver.grab();
   exit(0);
-
+  */
   
 
   /*

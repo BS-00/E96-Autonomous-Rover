@@ -1,5 +1,9 @@
 #include <Arduino.h>
 #include "Rover.hpp"
+#include "src/ClawAssembly/ClawAssembly.hpp"
+#include "src/Ultrasonic/Ultrasonic.hpp"
+#include "src/Drivetrain/Drivetrain.hpp"
+#include "src/MPU/MPU.hpp"
 #include "src/Constants.hpp"
 
 bool Rover::init () {
@@ -108,6 +112,7 @@ void Rover::forwardUntilBlocked () {
       (sensorFL.isBLocked() && !sensorL.isBLocked())
     ) break;
 
+    /*
     //Stops the rover from running into walls
     if (sensorL.isBLocked()) {
       turn(RIGHT);
@@ -118,6 +123,7 @@ void Rover::forwardUntilBlocked () {
       for (;;) if (!sensorBack.isBLocked()) break;
       turn(RIGHT);
     }
+    */
   }
   
   drive.halt();

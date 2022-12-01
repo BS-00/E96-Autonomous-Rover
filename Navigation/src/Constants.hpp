@@ -11,7 +11,7 @@
 #define SEARCHWIDTH 228
 
 //Rover Specifications
-#define SPEED 230 //0-255
+#define SPEED 200 //0-255
 #define TURNDELAY 1500 //millis
 #define AVOIDDELAY 50 //millis
 #define TILTAMOUNT 15 //degrees
