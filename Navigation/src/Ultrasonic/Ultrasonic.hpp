@@ -6,14 +6,14 @@ class UltSonSr {
     bool init (int trigPin, int echoPin);
     bool hasSpace ();
     bool isBLocked ();
-    long lastDistCm ();
+    long distCm ();
   
   private:
     int _trigPin, _echoPin;
-    long _lastDistCm;
+    long _lastDistCm = NULL;
 
     bool read ();
-    long microSecToCm (int microsecs) const;
+    long microSecToCm (int microsecs);
 };
 
 #endif

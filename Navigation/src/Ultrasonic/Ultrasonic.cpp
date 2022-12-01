@@ -9,25 +9,24 @@ bool UltSonSr::init (int trigPin, int echoPin) {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   
-  read();
   return true;
 }
 
 bool UltSonSr::hasSpace () {
-  if (read() && (lastDistCm() >= (ROVERLENGTH + 5))){
+  if (read() && (distCm() >= (ROVERLENGTH + 5))){
     return true;
   }
    return false;
 }
 
 bool UltSonSr::isBLocked () {
-  if (read() && (lastDistCm() <= 15)){
+  if (read() && (distCm() <= 15)){
     return true;
   }
    return false;
 }
 
-long UltSonSr::lastDistCm () {
+long UltSonSr::distCm () {
   if (read()) {
     return _lastDistCm;
   }
@@ -43,12 +42,12 @@ bool UltSonSr::read () {
 
   long tMicrosec = pulseIn(_echoPin, HIGH);
   _lastDistCm = max(microSecToCm(tMicrosec) / 2, -1);
-
-  if (lastDistCm() < 0) return false;
+  
+  if (_lastDistCm < 0) return false;
   return true;
 }
 
-long UltSonSr::microSecToCm (int microsecs) const {
+long UltSonSr::microSecToCm (int microsecs) {
   return microsecs / SPEEDOFSOUNDMICROSECPERCM;
 }
 

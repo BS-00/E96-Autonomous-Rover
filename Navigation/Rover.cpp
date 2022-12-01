@@ -6,6 +6,8 @@
 #include "src/MPU/MPU.hpp"
 #include "src/Constants.hpp"
 
+#include <Arduino.h>
+
 bool Rover::init () {
   sensorFCenter.init(47, 46);
   sensorFL.init(23, 22);
@@ -31,8 +33,6 @@ void Rover::avoidObstacle () {
     delay(AVOIDDELAY);
     
     drive.halt();
-    _updatePos(t);
-    
     turn(LEFT);
   } 
   else if (sensorL.hasSpace()) {
@@ -44,8 +44,6 @@ void Rover::avoidObstacle () {
     delay(AVOIDDELAY);
     
     drive.halt();
-    _updatePos(t);
-    
     turn(RIGHT); 
   }
 
@@ -127,7 +125,6 @@ void Rover::forwardUntilBlocked () {
   }
   
   drive.halt();
-  _updatePos(t);
 }
 
 void Rover::grab () {
@@ -135,29 +132,8 @@ void Rover::grab () {
   assem.set_rotation(ClawAssembly::TILT, 90+TILTAMOUNT);
 }
 
-void Rover::_updatePos (int startTime) {
-  //to keep track of the position, we calculate how far the rover just moved and update the position vars
-  //FIX THIS CALCULATION
-  int t = millis() - startTime;
-  int distanceTraveled = t * SPEED;
-  if (orientation == FORWARD) {
-    _xPosCm += distanceTraveled;
-  } 
-  else if (orientation == RIGHT) {
-    _yPosCm += distanceTraveled;
-  } 
-  else if (orientation == LEFT) {
-    _yPosCm -= distanceTraveled;
-  } 
-  else {
-    _xPosCm -= distanceTraveled;
-  }
-}
-
-int Rover::xPosCm () const {
-  return _xPosCm;
-}
-
-int Rover::yPosCm () const {
-  return _yPosCm;
+bool Rover::isInObjZone() {
+  const int MAXREADINGSTRAIGHTAWAY = STRAIGHTAWAYWIDTH - ROVERWIDTH;
+  if (sensorL.distCm() > MAXREADINGSTRAIGHTAWAY || sensorR.distCm() > MAXREADINGSTRAIGHTAWAY) return true;
+  return false;
 }

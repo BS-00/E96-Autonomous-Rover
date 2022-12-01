@@ -2,6 +2,8 @@
 #include "ClawAssembly.hpp"
 #include "../Constants.hpp"
 
+#include <Arduino.h>
+
 void ClawAssembly::init(const int claw_start_deg, const int start_tilt_deg) {
   _claw_servo = Servo();
   _claw_servo.attach(CLAWPIN);

@@ -13,7 +13,8 @@ void setup() {
 }
 
 void loop() {
-  bruver.forwardUntilBlocked(); 
+
+  Serial.println(bruver.forwardUntilBlocked());
   /*
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
   const int BUFFER = 5;

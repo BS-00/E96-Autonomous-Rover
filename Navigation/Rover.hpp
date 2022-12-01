@@ -28,16 +28,10 @@ class Rover {
   void avoidObstacle ();
   void turn (Direction dir);
   void grab ();
-
-  int xPosCm () const;
-  int yPosCm () const;
+  bool isInObjZone ();
 
   private:
     float _originalYaw = 0.0;
-    int _xPosCm = 0, _yPosCm = 0;
-
-    void _updatePos (int startTime);
-
 };
 
 
