@@ -61,7 +61,8 @@ void moveForwardUntilBlocked() {
 void updateRoverPos(int startTime) {
   //to keep track of the position, we calculate how far the rover just moved and update the position vars
   int t = millis() - startTime;
-  int distanceTraveled = t * SPEED;
+  const int WHEELCIRC = 16.9;
+  int distanceTraveled = (t/1000) * ((SPEED*60)*(WHEELCIRC));
   if (bruver.orientation == FORWARD) {
     distX += distanceTraveled;
   } else if (bruver.orientation == RIGHT) {
@@ -149,11 +150,11 @@ void maneuverAround() {
 void loop() {
   
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
-  if (true) {
+  while (distX <= STRAIGHTAWAYLEN) {
     moveForwardUntilBlocked();
-    maneuverAround();
+    if (distX < STRAIGHTAWAYLEN) maneuverAround();
   }
-  /*
+
   drive.goForward(SPEED);
   int dist = 0;
 
@@ -174,7 +175,6 @@ void loop() {
   m.set_rotation(Mechanism::CLAW, 0);
   m.set_rotation(Mechanism::TILT, 110);
   exit(0);
-  */
 
   
 
