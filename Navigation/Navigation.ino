@@ -1,180 +1,42 @@
-#include "gyroscope.h"
-#include "ultrasonic.h"
-#include "rover.h"
-#include "Drivetrain.h"
-#include "constants.h"
-#include "Mechanism.hpp"
+#include "src/Constants.hpp"
+#include "Rover.hpp"
 
+#include <Wire.h>
 
-// to keep track of our current position in centimeters from starting point
-int distX = 0;
-int distY = 0;
-const float originalYaw = 0.0;
-
-UltSonSr sensorFrontCenter(47, 46);
-UltSonSr sensorFrontLeft(23, 22);
-UltSonSr sensorFrontRight(49, 48);
-UltSonSr sensorLeft(43, 42);
-UltSonSr sensorRight(51, 50);
-UltSonSr sensorBack(45, 44);
-Drivetrain drive;
 Rover bruver;
-Mechanism m = Mechanism(2, 3);
-
 
 void setup() {
   Serial.begin(9600);
   Wire.begin();
-  gyroSetup();
-  m.init(110, 90);
-}
 
-void moveForwardUntilBlocked() {
-  
-  int t = millis(); 
-
-  //if there's no obstacle in front of the rover within 10 cm, keep moving forward
-  drive.goForward(SPEED);
-  for (;;) {
-    if (
-      sensorFrontCenter.isImmediatelyBlocked() ||
-      (sensorFrontRight.isImmediatelyBlocked() && !sensorRight.isImmediatelyBlocked()) ||
-      (sensorFrontLeft.isImmediatelyBlocked() && !sensorLeft.isImmediatelyBlocked())
-    ) break;
-      /*
-      //THERE IS A WALL VERY CLOSE
-      if (sensorLeft.isImmediatelyBlocked()) {
-        //TURN RIGHT AWAY FROM THE WALL
-        makeRightTurn();
-      } else if (sensorRight.isImmediatelyBlocked()) {
-        //TURN LEFT AWAY FROM THE WALL
-        makeLeftTurn();
-      }
-      */
-      continue;
-  }
-  drive.halt();
-  updateRoverPos(t);
-}
-
-
-void updateRoverPos(int startTime) {
-  //to keep track of the position, we calculate how far the rover just moved and update the position vars
-  int t = millis() - startTime;
-  int distanceTraveled = t * SPEED;
-  if (bruver.orientation == FORWARD) {
-    distX += distanceTraveled;
-  } else if (bruver.orientation == RIGHT) {
-    distY += distanceTraveled;
-  } else if (bruver.orientation == LEFT) {
-    distY -= distanceTraveled;
-  } else {distX -= distanceTraveled;}
-}
-
-
-
-void makeLeftTurn() {
-  int desiredYaw = (getYaw() + 90); 
-  drive.turnLeft(SPEED);
-  /*while (((int)getYaw() % 360) < (desiredYaw - 1)) { //the + 2 is to give some room for error
-    continue;
-  }*/
-  delay(1500);
-  drive.halt();
-  switch (bruver.orientation) {
-    case FORWARD:
-      bruver.orientation = LEFT;
-      break;
-    case LEFT:
-      bruver.orientation = BACKWARD;
-      break;
-    case BACKWARD:
-      bruver.orientation = RIGHT;
-      break;
-    default:
-      bruver.orientation = FORWARD;
-      break;
-  } 
-}
-
-void makeRightTurn() {
-  int desiredYaw = (getYaw() - 90); 
-  drive.turnRight(SPEED);
-  /*while (((int)getYaw() % 360) > (desiredYaw + 1)) { //the + 2 is to give some room for error
-    continue;
-  }*/
-  delay(1500);
-  drive.halt();
-  switch (bruver.orientation) {
-    case FORWARD:
-      bruver.orientation = RIGHT;
-      break;
-    case RIGHT:
-      bruver.orientation = BACKWARD;
-      break;
-    case BACKWARD:
-      bruver.orientation = LEFT;
-      break;
-    default:
-      bruver.orientation = FORWARD;
-      break;
-  }
-}
-
-
-void maneuverAround() {
-
-  if (sensorRight.isClear()) {
-    int t = millis();    
-    makeRightTurn();
-    drive.goForward(SPEED);
-    delay(1800);
-    drive.halt();
-    updateRoverPos(t);
-    makeLeftTurn();
-
-  } else if (sensorLeft.isClear()) {
-
-    int t = millis();
-    makeLeftTurn();
-    drive.goForward(SPEED);
-    delay(1800);
-    drive.halt();
-    updateRoverPos(t);
-    makeRightTurn(); 
-  }
-
+  bruver.init();
 }
 
 void loop() {
   
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
-  if (distX <= STRAIGHTAWAYLEN) {
-    moveForwardUntilBlocked();
-    maneuverAround();
+  const int BUFFER = 5;
+  while (bruver.xPosCm() <= STRAIGHTAWAYLEN) {
+    bruver.forwardUntilBlocked();
+    if (bruver.xPosCm() < STRAIGHTAWAYLEN - BUFFER) bruver.avoidObstacle();
   }
-  /*
-  drive.goForward(SPEED);
+  bruver.drive.goForward(SPEED);
   int dist = 0;
 
-  while (!sensorFrontCenter.isImmediatelyBlocked()) {
-    dist = sensorLeft.distToNearestObj() + sensorRight.distToNearestObj() + ROVERWIDTH;
+  while (!bruver.sensorFCenter.isBLocked()) {
+    dist = bruver.sensorL.lastDistCm() + bruver.sensorR.lastDistCm() + ROVERWIDTH;
     if (dist < (SEARCHWIDTH - 5)) {
-      drive.halt();
+      bruver.drive.halt();
       break;      
     }
   }
-  makeLeftTurn();
-  drive.goBackward(SPEED);
-  while (!sensorBack.isImmediatelyBlocked()){
-    continue;
-  }
-  drive.halt();
+  bruver.turn(Rover::LEFT);
+  bruver.drive.goBackward(SPEED);
+  for (;;) if (bruver.sensorBack.isBLocked()) break;
+  bruver.drive.halt();
 
-  m.set_rotation(Mechanism::CLAW, 0);
-  m.set_rotation(Mechanism::TILT, 110);
+  bruver.grab();
   exit(0);
-  */
 
   
 

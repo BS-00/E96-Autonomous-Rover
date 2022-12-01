@@ -1,22 +1,23 @@
 #include <Arduino.h>
-#include "Drivetrain.h"
+#include "Drivetrain.hpp"
+#include "../Constants.hpp"
 
 void Drivetrain::init(){
-    pinMode(_frontEnA, OUTPUT);
-    pinMode(_frontIn1, OUTPUT);
-    pinMode(_frontIn2, OUTPUT);
+    pinMode(FRONTENA, OUTPUT);
+    pinMode(FRONTIN1, OUTPUT);
+    pinMode(FRONTIN2, OUTPUT);
 
-    pinMode(_frontEnB, OUTPUT);
-    pinMode(_frontIn3, OUTPUT);
-    pinMode(_frontIn4, OUTPUT);
+    pinMode(FRONTENB, OUTPUT);
+    pinMode(FRONTIN3, OUTPUT);
+    pinMode(FRONTIN4, OUTPUT);
 
-    pinMode(_backEnA, OUTPUT);
-    pinMode(_backIn1, OUTPUT);
-    pinMode(_backIn2, OUTPUT);
+    pinMode(BACKENA, OUTPUT);
+    pinMode(BACKIN1, OUTPUT);
+    pinMode(BACKIN2, OUTPUT);
 
-    pinMode(_backEnB, OUTPUT);
-    pinMode(_backIn3, OUTPUT);
-    pinMode(_backIn4, OUTPUT);
+    pinMode(BACKENB, OUTPUT);
+    pinMode(BACKIN3, OUTPUT);
+    pinMode(BACKIN4, OUTPUT);
 }
 
 // Control ---------------------------------------------------
@@ -67,14 +68,14 @@ void Drivetrain::halt(){
 // Front Individual Control ---------------------------------------
 
 /*
- * speed parameter (0 - 254) sets speed
+ * speed parameter (0 - 255) sets speed
  * direction parameter (true for forward, false for backward) sets rotation direction
  */
 void Drivetrain::setFrontRight(int speed, bool direction){
-    analogWrite(_frontEnA, speed);
+    analogWrite(FRONTENA, speed);
 
-    digitalWrite(_frontIn1, direction);
-    digitalWrite(_frontIn2, !direction);
+    digitalWrite(FRONTIN1, direction);
+    digitalWrite(FRONTIN2, !direction);
 }
 
 void Drivetrain::stopFrontRight(){
@@ -82,14 +83,14 @@ void Drivetrain::stopFrontRight(){
 }
 
 /*
- * speed parameter (0 - 254) sets speed
+ * speed parameter (0 - 255) sets speed
  * direction parameter (true for forward, false for backward) sets rotation direction
  */
 void Drivetrain::setFrontLeft(int speed, bool direction){
-    analogWrite(_frontEnB, speed);
+    analogWrite(FRONTENB, speed);
 
-    digitalWrite(_frontIn3, direction);
-    digitalWrite(_frontIn4, !direction);
+    digitalWrite(FRONTIN3, direction);
+    digitalWrite(FRONTIN4, !direction);
 }
 
 void Drivetrain::stopFrontLeft(){
@@ -100,14 +101,14 @@ void Drivetrain::stopFrontLeft(){
 // Back Individual Control -----------------------------------------
 
 /*
- * speed parameter (0 - 254) sets speed
+ * speed parameter (0 - 255) sets speed
  * direction parameter (true for forward, false for backward) sets rotation direction
  */
 void Drivetrain::setBackLeft(int speed, bool direction){
-    analogWrite(_backEnA, speed);
+    analogWrite(BACKENA, speed);
 
-    digitalWrite(_backIn1, direction);
-    digitalWrite(_backIn2, !direction);
+    digitalWrite(BACKIN1, direction);
+    digitalWrite(BACKIN2, !direction);
 }
 
 void Drivetrain::stopBackLeft(){
@@ -115,14 +116,14 @@ void Drivetrain::stopBackLeft(){
 }
 
 /*
- * speed parameter (0 - 254) sets speed
+ * speed parameter (0 - 255) sets speed
  * direction parameter (true for forward, false for backward) sets rotation direction
  */
 void Drivetrain::setBackRight(int speed, bool direction){
-    analogWrite(_backEnB, speed);
+    analogWrite(BACKENB, speed);
 
-    digitalWrite(_backIn3, direction);
-    digitalWrite(_backIn4, !direction);
+    digitalWrite(BACKIN3, direction);
+    digitalWrite(BACKIN4, !direction);
 }
 
 void Drivetrain::stopBackRight(){
