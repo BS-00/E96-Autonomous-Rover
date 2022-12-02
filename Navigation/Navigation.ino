@@ -13,8 +13,8 @@ void setup() {
 }
 
 void loop() {
+  
 
-  //Serial.println(bruver.forwardUntilBlocked());
   /*
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
   const int BUFFER = 5;
@@ -28,7 +28,7 @@ void loop() {
   bruver.drive.goForward(SPEED);
   int dist = 0;
 
-  while (!bruver.sensorFCenter.isBLocked()) {
+  while (!bruver.sensorFCenter.isBlocked()) {
     dist = bruver.sensorL.distCm() + bruver.sensorR.distCm() + ROVERWIDTH;
     if (dist < (SEARCHWIDTH - 5)) {
       bruver.drive.halt();
@@ -37,7 +37,7 @@ void loop() {
   }
   bruver.turn(Rover::LEFT);
   bruver.drive.goBackward(SPEED);
-  for (;;) if (bruver.sensorBack.isBLocked()) break;
+  for (;;) if (bruver.sensorBack.isBlocked()) break;
   bruver.drive.halt();
 
   bruver.grab();

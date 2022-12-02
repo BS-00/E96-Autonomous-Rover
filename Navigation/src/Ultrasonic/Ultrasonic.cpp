@@ -19,7 +19,7 @@ bool UltSonSr::hasSpace () {
    return false;
 }
 
-bool UltSonSr::isBLocked () {
+bool UltSonSr::isBlocked () {
   if (read() && (distCm() <= 15)){
     return true;
   }

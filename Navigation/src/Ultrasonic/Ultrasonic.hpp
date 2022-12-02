@@ -5,7 +5,7 @@ class UltSonSr {
   public:
     bool init (int trigPin, int echoPin);
     bool hasSpace ();
-    bool isBLocked ();
+    bool isBlocked ();
     long distCm ();
   
   private:
