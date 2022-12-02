@@ -14,19 +14,22 @@ void setup() {
 
 void loop() {
 
-  Serial.println(bruver.forwardUntilBlocked());
+  //Serial.println(bruver.forwardUntilBlocked());
   /*
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
   const int BUFFER = 5;
-  while (bruver.xPosCm() <= STRAIGHTAWAYLEN) {
+  while (!bruver.isInObjZone()) {
     bruver.forwardUntilBlocked();
-    if (bruver.xPosCm() < STRAIGHTAWAYLEN - BUFFER) bruver.avoidObstacle();
+    if (bruver.isInObjZone()) break;
+    bruver.avoidObstacle();
   }
+
+  */
   bruver.drive.goForward(SPEED);
   int dist = 0;
 
   while (!bruver.sensorFCenter.isBLocked()) {
-    dist = bruver.sensorL.lastDistCm() + bruver.sensorR.lastDistCm() + ROVERWIDTH;
+    dist = bruver.sensorL.distCm() + bruver.sensorR.distCm() + ROVERWIDTH;
     if (dist < (SEARCHWIDTH - 5)) {
       bruver.drive.halt();
       break;      
@@ -39,10 +42,9 @@ void loop() {
 
   bruver.grab();
   exit(0);
-  */
   
-
-  /*
+  
+  /*  
   //we are now in the search area
   //first, we need to make sure the rover is pointing straight ahead. Turn right until we are within -2 to +2 yaw
   drive.turnRight(SPEED);

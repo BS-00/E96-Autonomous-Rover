@@ -28,7 +28,7 @@ class Rover {
   void avoidObstacle ();
   void turn (Direction dir);
   void grab ();
-  bool isInObjZone ();
+  bool isInObjZone();
 
   private:
     float _originalYaw = 0.0;

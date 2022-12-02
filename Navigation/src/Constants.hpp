@@ -12,7 +12,7 @@
 
 //Rover Specifications
 #define SPEED 200 //0-255
-#define TURNDELAY 1500 //millis
+#define TURNDELAY 1800 //millis
 #define AVOIDDELAY 50 //millis
 #define TILTAMOUNT 15 //degrees
 

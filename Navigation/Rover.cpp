@@ -129,7 +129,7 @@ void Rover::forwardUntilBlocked () {
 
 void Rover::grab () {
   assem.set_rotation(ClawAssembly::CLAW, 0);
-  assem.set_rotation(ClawAssembly::TILT, 90+TILTAMOUNT);
+  assem.set_rotation(ClawAssembly::TILT, 90-TILTAMOUNT);
 }
 
 bool Rover::isInObjZone() {
