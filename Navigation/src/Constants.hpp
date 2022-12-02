@@ -13,8 +13,9 @@
 //Rover Specifications
 #define SPEED 200 //0-255
 #define TURNDELAY 1500 //millis
-#define AVOIDDELAY 50 //millis
+#define AVOIDDELAY 1500 //millis
 #define TILTAMOUNT 15 //degrees
+#define GRABDELAY 300 //millis
 
 //Ultrasonic sensor
 #define DISTANCEOUTOFRANGE 10000

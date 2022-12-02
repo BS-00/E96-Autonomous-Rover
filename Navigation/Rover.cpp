@@ -25,22 +25,20 @@ bool Rover::init () {
 
 void Rover::avoidObstacle () {
   if (sensorR.hasSpace()) { 
-    turn(LEFT);
-    
-    int t = millis();   
+    turn(RIGHT);
+     
     drive.goForward(SPEED);
-    for (;;) if (!sensorL.isBLocked()) break;
+    //for (;;) if (!sensorL.isBLocked()) break;
     delay(AVOIDDELAY);
     
     drive.halt();
     turn(LEFT);
   } 
   else if (sensorL.hasSpace()) {
-    turn(RIGHT);
+    turn(LEFT);
     
-    int t = millis();
     drive.goForward(SPEED);
-    for (;;) if (!sensorR.isBLocked()) break;
+    //for (;;) if (!sensorR.isBLocked()) break;
     delay(AVOIDDELAY);
     
     drive.halt();
@@ -105,9 +103,9 @@ void Rover::forwardUntilBlocked () {
   
   for (;;) {
     if (
-      sensorFCenter.isBLocked() ||
-      (sensorFR.isBLocked() && !sensorR.isBLocked()) ||
-      (sensorFL.isBLocked() && !sensorL.isBLocked())
+      sensorFCenter.isBlocked() ||
+      (sensorFR.isBlocked() && !sensorR.isBlocked()) ||
+      (sensorFL.isBlocked() && !sensorL.isBlocked())
     ) break;
 
     /*
@@ -129,7 +127,8 @@ void Rover::forwardUntilBlocked () {
 
 void Rover::grab () {
   assem.set_rotation(ClawAssembly::CLAW, 0);
-  assem.set_rotation(ClawAssembly::TILT, 90+TILTAMOUNT);
+  delay(GRABDELAY);
+  assem.set_rotation(ClawAssembly::TILT, 90-TILTAMOUNT);
 }
 
 bool Rover::isInObjZone() {
