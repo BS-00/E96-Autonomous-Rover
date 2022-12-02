@@ -23,23 +23,23 @@ void Drivetrain::init(){
 // Control ---------------------------------------------------
 
 void Drivetrain::goForward(int speed){
-    setFrontLeft(speed, true);
+    setFrontLeft(speed+DRIFTCOMPENSATION, true);
     setFrontRight(speed, true);
-    setBackLeft(speed, true);
+    setBackLeft(speed+DRIFTCOMPENSATION, true);
     setBackRight(speed, true);
 }
 
 void Drivetrain::goBackward(int speed){
-    setFrontLeft(speed, false);
+    setFrontLeft(speed+DRIFTCOMPENSATION, false);
     setFrontRight(speed, false);
-    setBackLeft(speed, false);
+    setBackLeft(speed+DRIFTCOMPENSATION, false);
     setBackRight(speed, false);
 }
 
 void Drivetrain::turnLeft(int speed){
     // Set left side motors
-    setFrontLeft(speed, false);
-    setBackLeft(speed, false);
+    setFrontLeft(speed+DRIFTCOMPENSATION, false);
+    setBackLeft(speed+DRIFTCOMPENSATION, false);
 
     // Set right side motors
     setFrontRight(speed, true);
@@ -48,8 +48,8 @@ void Drivetrain::turnLeft(int speed){
 
 void Drivetrain::turnRight(int speed){
     // Set left side motors
-    setFrontLeft(speed, true);
-    setBackLeft(speed, true);
+    setFrontLeft(speed+DRIFTCOMPENSATION, true);
+    setBackLeft(speed+DRIFTCOMPENSATION, true);
 
     // Set right side motors
     setFrontRight(speed, false);

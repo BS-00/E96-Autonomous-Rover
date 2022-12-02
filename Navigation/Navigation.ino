@@ -13,9 +13,6 @@ void setup() {
 }
 
 void loop() {
-  
-
-  /*
   //while we're in the obstacle area, keep traveling forward and avoiding obstacles
   const int BUFFER = 5;
   while (!bruver.isInObjZone()) {
@@ -23,9 +20,14 @@ void loop() {
     if (bruver.isInObjZone()) break;
     bruver.avoidObstacle();
   }
-
-  */
   bruver.drive.goForward(SPEED);
+  delay(OBJZONEDELAY);
+
+  /*
+  bruver.drive.turnRight(SPEED);
+  delay(TURNCORRECTIONDELAY);
+  bruver.drive.halt();
+  */
   int dist = 0;
 
   while (!bruver.sensorFCenter.isBlocked()) {
@@ -38,11 +40,16 @@ void loop() {
   bruver.turn(Rover::LEFT);
   bruver.drive.goBackward(SPEED);
   for (;;) if (bruver.sensorBack.isBlocked()) break;
+  delay(GRABDELAY);
   bruver.drive.halt();
-
   bruver.grab();
+
+  bruver.drive.goForward(SPEED);
+  for (;;) if (!bruver.sensorFCenter.hasSpace()) break;
+  bruver.drive.halt();
   exit(0);
   
+
   
   /*  
   //we are now in the search area
@@ -69,5 +76,6 @@ void loop() {
     //the object must be in view of one of the side sensors. determine which one by moving forward and comparing distances, then go try to pick it up
   }
   */
+  
 
 }

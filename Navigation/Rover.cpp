@@ -97,8 +97,17 @@ void Rover::turn (Direction dir) {
   }
 }
 
+/*
+void Rover::correctTurn () {
+  while (sensorL.distCm() + sensorR.dist() + ROVERWIDTH > STRAIGHTAWAYLEN - 1) {
+    if () {
+      
+    }
+  }   
+}
+*/
+
 void Rover::forwardUntilBlocked () {
-  int t = millis(); 
   drive.goForward(SPEED);
   
   for (;;) {
@@ -126,13 +135,14 @@ void Rover::forwardUntilBlocked () {
 }
 
 void Rover::grab () {
-  assem.set_rotation(ClawAssembly::CLAW, 0);
+  assem.set_rotation(ClawAssembly::CLAW, 7);
   delay(GRABDELAY);
   assem.set_rotation(ClawAssembly::TILT, 90-TILTAMOUNT);
 }
 
 bool Rover::isInObjZone() {
   const int MAXREADINGSTRAIGHTAWAY = STRAIGHTAWAYWIDTH - ROVERWIDTH;
-  if (sensorL.distCm() > MAXREADINGSTRAIGHTAWAY || sensorR.distCm() > MAXREADINGSTRAIGHTAWAY) return true;
+  if ((sensorL.distCm() > MAXREADINGSTRAIGHTAWAY && sensorL.distCm() < SEARCHWIDTH)
+  || (sensorR.distCm() > MAXREADINGSTRAIGHTAWAY && sensorR.distCm() < SEARCHWIDTH)) return true;
   return false;
 }
