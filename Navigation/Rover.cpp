@@ -19,130 +19,17 @@ bool Rover::init () {
   drive.init();
   gyro.init();
   assem.init(110, 90);
-
-  _originalYaw = gyro.yaw();
 }
 
-void Rover::avoidObstacle () {
-  if (sensorR.hasSpace()) { 
-    turn(RIGHT);
-     
-    drive.goForward(SPEED);
-    //for (;;) if (!sensorL.isBLocked()) break;
-    delay(AVOIDDELAY);
-    
-    drive.halt();
-    turn(LEFT);
-  } 
-  else if (sensorL.hasSpace()) {
-    turn(LEFT);
-    
-    drive.goForward(SPEED);
-    //for (;;) if (!sensorR.isBLocked()) break;
-    delay(AVOIDDELAY);
-    
-    drive.halt();
-    turn(RIGHT); 
-  }
-
-}
-
-//MAKE CODE LOOK BETTER V
-//Only accepts left and right
-void Rover::turn (Direction dir) {
-  if (dir == LEFT) {
-	  //int desiredYaw = (gyro.yaw() + 90); 
-	  drive.turnLeft(SPEED);
-	  /*while (((int)getYaw() % 360) < (desiredYaw - 1)) { //the + 2 is to give some room for error
-		continue;
-	  }*/
-	  delay(TURNDELAY);
-	  drive.halt();
-	  switch (orientation) {
-      case FORWARD:
-        orientation = LEFT;
-        break;
-      case LEFT:
-        orientation = BACKWARD;
-        break;
-      case BACKWARD:
-        orientation = RIGHT;
-        break;
-      default:
-        orientation = FORWARD;
-        break;
-	  } 
-  } else if (dir == RIGHT) {
-    //int desiredYaw = (gyro.yaw() - 90); 
-    drive.turnRight(SPEED);
-    /*while (((int)getYaw() % 360) > (desiredYaw + 1)) { //the + 2 is to give some room for error
-    continue;
-    }*/
-    delay(TURNDELAY);
-    drive.halt();
-    switch (orientation) {
-      case FORWARD:
-        orientation = RIGHT;
-        break;
-      case RIGHT:
-        orientation = BACKWARD;
-        break;
-      case BACKWARD:
-        orientation = LEFT;
-        break;
-      default:
-        orientation = FORWARD;
-        break;
-    }
-  }
-}
-
-/*
-void Rover::correctTurn () {
-  while (sensorL.distCm() + sensorR.dist() + ROVERWIDTH > STRAIGHTAWAYLEN - 1) {
-    if () {
-      
-    }
-  }   
-}
-*/
-
-void Rover::forwardUntilBlocked () {
-  drive.goForward(SPEED);
-  
-  for (;;) {
-    if (
-      sensorFCenter.isBlocked() ||
-      (sensorFR.isBlocked() && !sensorR.isBlocked()) ||
-      (sensorFL.isBlocked() && !sensorL.isBlocked())
-    ) break;
-
-    /*
-    //Stops the rover from running into walls
-    if (sensorL.isBLocked()) {
-      turn(RIGHT);
-      for (;;) if (!sensorBack.isBLocked()) break;
-      turn(LEFT);
-    } else if (sensorR.isBLocked()) {
-      turn(LEFT);
-      for (;;) if (!sensorBack.isBLocked()) break;
-      turn(RIGHT);
-    }
-    */
-  }
-  
-  drive.halt();
-}
-
-void Rover::grab () {
-  assem.set_rotation(ClawAssembly::CLAW, 7);
-  delay(GRABDELAY);
-  assem.set_rotation(ClawAssembly::TILT, 90-TILTAMOUNT);
+void Rover::grabObj () {
+  assem.set_rotation(ClawAssembly::CLAW, CLAWASSEM_CLAW_CLOSE_DEG);
+  delay(GRAB_TILT_DELAY_MILLIS);
+  assem.set_rotation(ClawAssembly::TILT, 90-CLAWASSEM_TILT_DEG);
 }
 
 bool Rover::isInObjZone() {
-  const int MAXREADINGSTRAIGHTAWAY = STRAIGHTAWAYWIDTH - ROVERWIDTH;
-  if ((sensorL.distCm() > MAXREADINGSTRAIGHTAWAY && sensorL.distCm() < SEARCHWIDTH)
-  || (sensorR.distCm() > MAXREADINGSTRAIGHTAWAY && sensorR.distCm() < SEARCHWIDTH)) return true;
+  const int MAX_STRAIGNT_READ_WIDTH = WIDTH_STRAIGHTAWAY_CM - ROVER_WIDTH_CM;
+  if ((sensorL.distCm() > MAX_STRAIGNT_READ_WIDTH && sensorL.distCm() < OBJZONE_WIDTH_CM)
+  || (sensorR.distCm() > MAX_STRAIGNT_READ_WIDTH && sensorR.distCm() < OBJZONE_WIDTH_CM)) return true;
   return false;
 }

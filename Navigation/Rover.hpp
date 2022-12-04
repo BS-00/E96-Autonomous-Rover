@@ -6,12 +6,10 @@
 #include "src/Drivetrain/Drivetrain.hpp"
 #include "src/MPU/MPU.hpp"
 
+enum Direction {FORWARD, BACKWARD, LEFT, RIGHT};
+
 class Rover {
-  
   public:
-    enum Direction {FORWARD, BACKWARD, LEFT, RIGHT};
-    Direction orientation = FORWARD;
-    
     UltSonSr  sensorFCenter,
           sensorFL,
           sensorFR,
@@ -23,15 +21,9 @@ class Rover {
     MPU gyro;
 	
   bool init ();
-
-  void forwardUntilBlocked ();
-  void avoidObstacle ();
   void turn (Direction dir);
-  void grab ();
+  void grabObj ();
   bool isInObjZone();
-
-  private:
-    float _originalYaw = 0.0;
 };
 
 

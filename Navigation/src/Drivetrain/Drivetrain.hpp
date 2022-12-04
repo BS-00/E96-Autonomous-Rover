@@ -4,8 +4,8 @@
 class Drivetrain{
   public:
     void init();
-    void goForward(int speed);
-    void goBackward(int speed);
+    void forward(int lSpeed, int rSpeed);
+    void backward(int lSpeed, int rSpeed);
     void turnLeft(int speed);
     void turnRight(int speed);
     void halt();
@@ -22,6 +22,8 @@ class Drivetrain{
     void stopBackLeft();
     void setBackRight(int speed, bool direction);
     void stopBackRight();
+    
+    void ensureValidSpeed(int& speed);
 };
 
 #endif

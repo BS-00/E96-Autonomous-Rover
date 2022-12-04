@@ -13,24 +13,24 @@ bool UltSonSr::init (int trigPin, int echoPin) {
 }
 
 bool UltSonSr::hasSpace () {
-  if (read() && (distCm() >= (ROVERLENGTH + 5))){
+  if (read() && (distCm() >= (ROVER_WIDTH_CM + 5))){
     return true;
   }
    return false;
 }
 
 bool UltSonSr::isBlocked () {
-  if (read() && (distCm() <= 15)){
+  if (read() && (distCm() <= ULTSON_ISBLOCKED_THRESHOLD_CM)){
     return true;
   }
    return false;
 }
 
 long UltSonSr::distCm () {
-  if (read()) {
+  if (read() && _lastDistCm < ULTSON_MAX_DIST_CM && _lastDistCm > ULTSON_MIN_DIST_CM) {
     return _lastDistCm;
   }
-  return DISTANCEOUTOFRANGE;
+  return ULTSON_OUT_OF_RANGE;
 }
 
 bool UltSonSr::read () {
@@ -48,7 +48,8 @@ bool UltSonSr::read () {
 }
 
 long UltSonSr::microSecToCm (int microsecs) {
-  return microsecs / SPEEDOFSOUNDMICROSECPERCM;
+  const float SPEED_SOUND_MICROSEC_PER_CM = 29.1;
+  return microsecs / SPEED_SOUND_MICROSEC_PER_CM;
 }
 
 
