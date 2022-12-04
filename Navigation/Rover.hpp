@@ -6,22 +6,18 @@
 #include "src/Drivetrain/Drivetrain.hpp"
 #include "src/MPU/MPU.hpp"
 
-enum Direction {FORWARD, BACKWARD, LEFT, RIGHT};
+struct Rover {
+  UltSonSr  sensorFCenter,
+        sensorFL,
+        sensorFR,
+        sensorL,
+        sensorR,
+        sensorBack;
+  Drivetrain drive;
+  ClawAssembly assem;
+  MPU gyro;
 
-class Rover {
-  public:
-    UltSonSr  sensorFCenter,
-          sensorFL,
-          sensorFR,
-          sensorL,
-          sensorR,
-          sensorBack;
-    Drivetrain drive;
-    ClawAssembly assem;
-    MPU gyro;
-	
   bool init ();
-  void turn (Direction dir);
   void grabObj ();
   bool isInObjZone();
 };

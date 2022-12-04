@@ -44,8 +44,8 @@ void loop() {
   const int OBJZONE_WALL_BUFFER_CM = 15;
 
   bruver.drive.turnLeft(MOTOR_DEFAULT_SPEED);
-  for (;;) if (bruver.sensorL.distCm() + bruver.sensorR.distCm() + ROVER_WIDTH <= OBJZONE_WIDTH_CM + OBJZONE_WALL_BUFFER_CM &&
-               bruver.sensorL.distCm() + bruver.sensorR.distCm() + ROVER_WIDTH >= OBJZONE_WIDTH_CM - OBJZONE_WALL_BUFFER_CM
+  for (;;) if (bruver.sensorL.distCm() + bruver.sensorR.distCm() + ROVER_WIDTH_CM <= OBJZONE_WIDTH_CM + OBJZONE_WALL_BUFFER_CM &&
+               bruver.sensorL.distCm() + bruver.sensorR.distCm() + ROVER_WIDTH_CM >= OBJZONE_WIDTH_CM - OBJZONE_WALL_BUFFER_CM
               ) break;
   bruver.drive.halt();
 
@@ -116,7 +116,7 @@ void loop() {
 
   //# drop at drop zone
   bruver.drive.forward(MOTOR_DEFAULT_SPEED, MOTOR_DEFAULT_SPEED);
-  for(;;) if (bruver.sensorFCenter <= ULTSON_ISBLOCKED_THRESHOLD_CM) break;
+  for(;;) if (bruver.sensorFCenter.distCm() <= ULTSON_ISBLOCKED_THRESHOLD_CM) break;
   bruver.drive.halt();
 
   exit(0);
